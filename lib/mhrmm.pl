@@ -76,8 +76,8 @@ sub rmm {
 
             # Need to flag messages that link to deleted message so
             # they will be updated.
-            foreach (@{$FollowOld{$index}}) {
-                $Update{$IndexNum{$_}} = 1;
+            foreach my $i (@{$FollowOld{$key}}) {
+                $Update{$IndexNum{$i}} = 1;
             }
             $Update{$IndexNum{$TListOrder[$Index2TLoc{$key} - 1]}} = 1;
             $Update{$IndexNum{$TListOrder[$Index2TLoc{$key} + 1]}} = 1;
