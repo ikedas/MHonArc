@@ -315,7 +315,7 @@ sub write_attachment {
     }
 
     my $ctype = 'application/octet-stream';
-    if ($content =~ m%^\s*([\w\-\./]+)%) {
+    if ($content =~ m%^\s*([\w\!\#\$\&\-\^.+/]+)%) {
         $ctype = $1;
     }
 

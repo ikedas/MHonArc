@@ -959,7 +959,8 @@ sub read_mail_header {
     ## Get Content-Type ##
     ##------------------##
     if (defined($fields->{'content-type'})) {
-        ($ctype = $fields->{'content-type'}[0]) =~ m%^\s*([\w\-\./]+)%;
+        ($ctype = $fields->{'content-type'}[0]) =~
+            m%^\s*([\w\!\#\$\&\-\^.+/]+)%;
         $ctype = lc($1 || 'text/plain');
     } else {
         $ctype = 'text/plain';

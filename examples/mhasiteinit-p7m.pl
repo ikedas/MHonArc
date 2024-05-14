@@ -86,7 +86,7 @@ $mhonarc::CBRawMessageBodyRead = sub {
     if ($sub_header->{'content-type'}) {
         # Make sure update mhonarc's meta field for content-type
         my $ctype = $sub_header->{'content-type'}[0];
-        if ($ctype =~ m%^\s*([\w\-\./]+)%) {
+        if ($ctype =~ m%^\s*([\w\!\#\$\&\-\^.+/]+)%) {
             $fields->{'x-mha-content-type'} = $1;
         }
     }

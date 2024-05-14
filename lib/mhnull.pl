@@ -34,7 +34,8 @@ package m2h_null;
 
 sub filter {
     my ($fields, $data, $isdecode, $args) = @_;
-    my ($ctype) = $fields->{'content-type'}[0] =~ m%^\s*([\w\-\./]+)%;
+    my ($ctype) =
+        $fields->{'content-type'}[0] =~ m%^\s*([\w\!\#\$\&\-\^.+/]+)%;
     my ($disp, $nameparm, $raw_name, $html_name) =
         readmail::MAILhead_get_disposition($fields, 1);
     join("",
