@@ -85,7 +85,8 @@ sub filter {
     $args   = ""  unless defined($args);
 
     ## Get content-type
-    my($ctype) = $fields->{'content-type'}[0] =~ m%^\s*([\w\-\./]+)%;
+    my ($ctype) =
+        $fields->{'content-type'}[0] =~ m%^\s*([\w\!\#\$\&\-\^.+/]+)%;
     my $richtext = $ctype =~ /\btext\/richtext\b/i;
 
     if (defined($charcnv) && defined(&$charcnv)) {

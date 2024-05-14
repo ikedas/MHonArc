@@ -112,7 +112,6 @@ sub filter {
     $args	   = ''  unless defined($args);
     my $name	   = '';
     my $ctype	   = '';
-    my $type	   = '';
     my $inline	   =  0;
     my $inext	   = '';
     my $intype	   = '';
@@ -136,10 +135,10 @@ sub filter {
 
     ## Get content-type
     if (!defined($ctype = $fields->{'x-mha-content-type'})) {
-	($ctype) = $fields->{'content-type'}[0] =~ m%^\s*([\w\-\./]+)%;
+        ($ctype) =
+            $fields->{'content-type'}[0] =~ m%^\s*([\w\!\#\$\&\-\^.+/]+)%;
 	$ctype =~ tr/A-Z/a-z/;
     }
-    $type = (mhonarc::get_mime_ext($ctype))[1];
 
     ## Get disposition
     my($disp, $nameparm, $raw_name, $html_name) =
@@ -170,6 +169,7 @@ sub filter {
     ## Check if extension and type description passed in
     if ($args =~ /\bext=(\S+)/i)      { $inext  = $1;  $inext =~ s/['"]//g; }
     if ($args =~ /\btype="([^"]+)"/i) { $intype = $1; }
+    $intype ||= (mhonarc::get_mime_ext($ctype))[1];
 
     ## Check if utilizing extension from mail header defined filename
     if ($dispext && $usenameext) {
@@ -225,9 +225,11 @@ sub filter {
 		mhonarc::htmlize($fields->{'content-description'}[0]).
 		"</p>\n"
 	    if (defined $fields{'content-description'});
-	$ret .= qq|<p><a href="$urlfile" $target><img src="$urlfile" | .
-		qq|alt="$type"></a></p>\n|;
-
+        $ret .=
+              qq|<p><a href="$urlfile" $target><img src="$urlfile" |
+            . qq|alt="|
+            . mhonarc::htmlize($intype)
+            . qq|"></a></p>\n|;
     } else {
 	my $is_mesg = $ctype =~ /^message\//;
 	my $desc = '<em>Description:</em> ';
@@ -238,8 +240,8 @@ sub filter {
 	    $namelabel = readmail::MAILdecode_1522_str($1);
 	    $desc .= 'Message attachment';
 	} else {
-	    $desc .= mhonarc::htmlize($fields->{'content-description'}[0]) ||
-		     $type;
+            $desc .= mhonarc::htmlize($fields->{'content-description'}[0]
+                    || $intype);
 	    if ($nameparm) {
 		#$namelabel = mhonarc::htmlize($nameparm);
 		$namelabel = $html_name;

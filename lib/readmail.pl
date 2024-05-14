@@ -507,8 +507,9 @@ sub MAILread_body {
 	$content = $fields->{'content-type'}->[0];
     }
     $content = 'text/plain'  unless $content;
-    ($ctype) = $content =~ m%^\s*([\w\-\./]+)%;	# Extract content-type
-    $ctype =~ tr/A-Z/a-z/;			# Convert to lowercase
+    ($ctype) =
+        $content =~ m%^\s*([\w\!\#\$\&\-\^.+/]+)%;    # Extract content-type
+    $ctype =~ tr/A-Z/a-z/;                            # Convert to lowercase
     if ($ctype =~ m%/%) {			# Extract base and sub types
 	($type,$subtype) = split(/\//, $ctype, 2);
     } elsif ($ctype =~ /text/i) {
@@ -1284,10 +1285,10 @@ sub extract_ctype {
 	return 'text/plain';
     }
     if (ref($_[0])) {
-	$_[0][0] =~ m|^\s*([\w\-\./]+)|;
+        $_[0][0] =~ m%^\s*([\w\!\#\$\&\-\^.+/]+)%;
 	return lc($1);
     }
-    $_[0] =~ m|^\s*([\w\-\./]+)|;
+    $_[0] =~ m%^\s*([\w\!\#\$\&\-\^.+/]+)%;
     lc($1);
 }
 

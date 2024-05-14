@@ -427,7 +427,7 @@ sub resolve_cid {
     my $ctype = $href->{'fields'}{'x-mha-content-type'};
     if (!defined($ctype)) {
       $ctype = $href->{'fields'}{'content-type'}[0];
-      ($ctype) = $ctype =~ m{^\s*([\w\-\./]+)};
+        ($ctype) = $ctype =~ m%^\s*([\w\!\#\$\&\-\^.+/]+)%;
     }
     return ""  if readmail::MAILis_excluded($ctype);
 
