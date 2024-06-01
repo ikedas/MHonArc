@@ -282,7 +282,7 @@ sub sort_messages {
         } else {
             return sort {
                        ($from{$a} cmp $from{$b})
-                    || ($Time{$a} <=> $Time{$a})
+                    || ($Time{$a} <=> $Time{$b})
             } keys %Subject;
         }
 
